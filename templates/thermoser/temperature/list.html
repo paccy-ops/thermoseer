@@ -1,0 +1,51 @@
+{% extends "thermoser/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            {% if temperatures %}
+                <h1>{{ temperatures.count }} List Of Temperature{{ temperatures.count|pluralize }}</h1>
+            {% else %}
+                <h1>List of temperatures test</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            {% if temperatures %}
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Temperature</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for temperature in temperatures %}
+
+                        <tr>
+
+                                <th scope="row"> <a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.scanner_id }} </a></th>
+                                <td><a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.name }} </a></td>
+                                <td><a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.temp }} </a></td>
+                                <td><a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.publish }} </a></td>
+
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% include "thermoser/pagination.html" with page=temperatures %}
+            {% else %}
+                <div class="text-center">
+                    <h2>Looks like you don't have any temperatures! Nice work.</h2>
+                    <br>
+                    <a role="button" class="btn btn-primary" href="{% url 'thermoseer:create_temperature' %}">New
+                        Temperature</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+
+{% extends "thermoser/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <h2>New Temperature</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Title</label>
+                    <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="scanner_id">scanner_id</label>
+                    <input  type="text" name="scanner_id" class="form-control" id="scanner_id" required>
+                </div>
+                <div class="form-group">
+                          <label for="temp">Temperature</label>
+                    <input  type="text" name="temp" class="form-control" id="temp" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
