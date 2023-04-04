@@ -1,6 +1,6 @@
 {% extends "thermoser/base.html" %}
 
-{% block title %}{{ temperature.name }}{% endblock %}
+{% block title %}{{ user.name }}{% endblock %}
 
 {% block content %}
   <div class="container bootstrap snippets bootdey">
@@ -9,64 +9,38 @@
         <div class="panel panel-default">
             <div class="panel-body text-center">
                 <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Contact"></div>
-                <h3 class="m0 text-bold">{{ temperature.name }}</h3>
+                <h3 class="m0 text-bold">{{ scanner.name }}</h3>
                 <div class="mv-lg">
-                    <p>Hello, I'm a just a dummy contact in your contact list and this is my presentation text. Have fun!</p>
+                    <p>University Of The Cordilleras <br/> {{ scanner.dept }}</p>
                 </div>
             </div>
         </div>
         <div class="panel panel-default hidden-xs hidden-sm">
             <div class="panel-heading">
-                <div class="panel-title text-center">Recent contacts</div>
+                <div class="panel-title text-center">Recent Records</div>
             </div>
             <div class="panel-body">
-                <div class="media">
-                    <div class="media-left media-middle">
-                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Contact"></a>
-                    </div>
-                    <div class="media-body pt-sm">
-                        <div class="text-bold">Floyd Ortiz
-                            <div class="text-sm text-muted">12m ago</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left media-middle">
-                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Contact"></a>
-                    </div>
-                    <div class="media-body pt-sm">
-                        <div class="text-bold">Luis Vasquez
-                            <div class="text-sm text-muted">2h ago</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left media-middle">
-                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Contact"></a>
-                    </div>
-                    <div class="media-body pt-sm">
-                        <div class="text-bold">Duane Mckinney
-                            <div class="text-sm text-muted">yesterday</div>
-                        </div>
-                    </div>
-                </div>
+                {% for user_scanner in user_scanners %}
                 <div class="media">
                     <div class="media-left media-middle">
                         <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="Contact"></a>
                     </div>
+                    <a href="{% url 'thermoseer:user_scanner_detail' user_scanner.scanner_id %}">
                     <div class="media-body pt-sm">
-                        <div class="text-bold">Connie Lambert
-                            <div class="text-sm text-muted">2 weeks ago</div>
+                        <div class="text-bold" style="margin: 4px;">{{ user_scanner.name }}
+                            <div class="text-sm text-muted">{{ user_scanner.updated|timesince }} ago</div>
                         </div>
                     </div>
+                    </a>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-    <div class="col-md-8" style="margin-top: 20px;">
+    <div class="col-md-8" style="padding: 5px;">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="h4 text-center" style="margin-top: 20px;">Student Information</div>
+                <div class="h4 text-center">Student Information</div>
                 <div class="row pv-lg" >
                     <div class="col-lg-2"></div>
                     <div class="col-lg-8">
@@ -74,61 +48,69 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="inputContact1">Name</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact1" type="text" placeholder="" value={{ temperature.name }}>
+                                    <input class="form-control" id="inputContact1" type="text" value="{{  scanner.name }}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact2">Email</label>
+                                <label class="col-sm-2 control-label" for="inputContact2">Department</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact2" type="email" value="mail@example.com">
+                                    <input class="form-control" id="inputContact2" type="email" value="{{ scanner.dept  }}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact3">Phone</label>
+                                <label class="col-sm-4 control-label" for="inputContact3" >Student Id</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact3" type="text" value="(123) 465 789">
+                                    <input class="form-control" id="inputContact3" type="text" value="{{  scanner.scanner_id }}">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact4">Mobile</label>
+                            {% if latest_test.temp  %}
+                                   <div class="form-group">
+                                <label class="col-sm-9 control-label" for="inputContact4">Latest Temperature Result</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact4" type="text" value="(12) 123 987 465">
+                                    <input class="form-control" id="inputContact4" type="text" value="{{ latest_test.temp }}">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact5">Website</label>
+                                {% else %}
+                                   <div class="form-group">
+                                <label class="col-sm-9 control-label" for="inputContact4">Latest Temperature Result</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact5" type="text" value="http://some.wesbite.com">
+                                    <input class="form-control" id="inputContact4" type="text" value="0.0">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact6">Address</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputContact6" row="4">Some nice Street, 1234</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact7">Social</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact7" type="text" value="@Social">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="inputContact8">Company</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="inputContact8" type="text" placeholder="No Company">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                </div>
-                            </div>
+                            {% endif %}
 
                         </form>
+
                     </div>
                 </div>
             </div>
+
         </div>
+        {% if temperatures  %}
+            <table class="table table-hover table-dark">
+                    <thead>
+                    <tr style="text-align: center;">
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Temperature</th>
+                         <th scope="col">Status</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                    {% for temperature in temperatures %}
+                        <tr {% if temperature.status == 'High' %}style="background: #b24c00; border: none;" {% endif %}>
+                                <th scope="row">{{ temperature.scanner_id }}</th>
+                                <td>{{ temperature.scanner }} </td>
+                                <td>{{ temperature.temp }}</td>
+                                <td>{{ temperature.status }}</td>
+                                <td>{{ temperature.publish|time }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% include "thermoser/pagination.html" with page=temperatures %}
+        {% endif %}
     </div>
 </div>
 </div>

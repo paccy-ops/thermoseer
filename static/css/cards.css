@@ -1,15 +1,24 @@
-body {
+html, body {
     margin: 0;
     font-family: Montserrat, sans-serif;
-    background: darkgreen fixed center;
+    height: 100%;
+    width: 100%;
+    background: #026c02;
     padding: 0;
     /*display: grid;*/
     place-items: center;
     box-sizing: border-box;
     color: #ffffff;
     font-weight: 700;
+    position:fixed;
+    /*top:0;*/
+    /*bottom:0;*/
+    /*left:0;*/
+    /*right:0;*/
 }
-
+/*html, body, {*/
+/*    */
+/*}*/
 .card {
     background-color: #fff;
     max-width: 400px;

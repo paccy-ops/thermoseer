@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("", include("thermoseer.urls",namespace="thermoseer")),
+    path("", include("thermoseer.urls", namespace="thermoseer")),
     path("api/", include("demo.urls")),
     path('admin/', admin.site.urls),
 ]

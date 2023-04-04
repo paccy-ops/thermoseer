@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from . import serializers
 from .models import Temperature
-from .serializers import TemperatureSerializer
+from .serializers import TemperatureSerializer,PostTemperatureSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -43,22 +43,22 @@ def view(request):
 
 @api_view(['POST'])
 def createTemperature(request):
-    user = request.user
     data = request.data
+    if int(data['temp']) > 36.6:
+        data['status'] = 'HIGH'
+    else:
+        data['status'] = 'NORMAL'
     product = Temperature.objects.create(
-        user=user,
         scanner_id=data['scanner_id'],
         temp=data['temp'],
-        dept=data['dept'],
-        name=data['name'],
-
+        status=data['status']
     )
 
-    serializer = TemperatureSerializer(product, many=False)
+    serializer = PostTemperatureSerializer(product, many=False)
     return Response(serializer.data)
 
 
-# class VirkInfoViewList(ListCreateAPIView):
+# class VirInfoViewList(ListCreateAPIView):
 #     """ List all VatAccountInfo, or create a new VatAccountInfo. """
 #     serializer_class = TemperatureSerializer
 #     # permission_classes = (IsAuthenticated,)

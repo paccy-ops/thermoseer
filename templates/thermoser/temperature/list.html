@@ -10,28 +10,32 @@
             {% endif %}
         </div>
     </div>
+{#    <input type="text">#}
+</form>
     <div class="row justify-content-center mt-5">
         <div class="col-md-10">
             {% if temperatures %}
                 <table class="table table-hover table-dark">
                     <thead>
-                    <tr>
+                    <tr style="text-align: center;">
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Temperature</th>
                         <th scope="col">Time</th>
+                        <th scope="col">Status</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="text-align: center;">
                     {% for temperature in temperatures %}
 
-                        <tr>
-
-                                <th scope="row"> <a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.scanner_id }} </a></th>
-                                <td><a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.name }} </a></td>
-                                <td><a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.temp }} </a></td>
-                                <td><a href="{% url 'thermoseer:temperature_detail' temperature.id %}">{{ temperature.publish }} </a></td>
-
+                        <tr {% if temperature.status == 'High' %}style="background: #b24c00; border: none;" {% endif %}>
+                                {% if temperature.scanner_id %}
+                                    <th scope="row"> <a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.scanner_id }} </a></th>
+                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.scanner }} </a></td>
+                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.temp }} </a></td>
+                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.publish }} </a></td>
+                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.status }} </a></td>
+                                 {% endif %}
                         </tr>
 
                     {% endfor %}
@@ -40,7 +44,7 @@
                 {% include "thermoser/pagination.html" with page=temperatures %}
             {% else %}
                 <div class="text-center">
-                    <h2>Looks like you don't have any temperatures! Nice work.</h2>
+                    <h2>Looks like you don't have any temperatures!</h2>
                     <br>
                     <a role="button" class="btn btn-primary" href="{% url 'thermoseer:create_temperature' %}">New
                         Temperature</a>

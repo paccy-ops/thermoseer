@@ -3,8 +3,8 @@ from djangochannelsrestframework.generics import GenericAsyncAPIConsumer
 from djangochannelsrestframework.mixins import ListModelMixin, RetrieveModelMixin
 from djangochannelsrestframework.observer import model_observer
 
-from .models import Temperature
-from .serializers import TemperatureSerializer
+from .models import Temperature, ScannerTemperature
+from .serializers import TemperatureSerializer, ScannerTemperatureSerializer
 
 
 class PostConsumer(ListModelMixin, GenericAsyncAPIConsumer):
@@ -26,10 +26,10 @@ class PostConsumer(ListModelMixin, GenericAsyncAPIConsumer):
 
 
 class SingleConsumer(RetrieveModelMixin, GenericAsyncAPIConsumer):
-    queryset = Temperature.objects.all()
-    serializer_class = TemperatureSerializer
+    serializer_class = ScannerTemperatureSerializer
     permission_classes = (permissions.AllowAny,)
-    tp = Temperature.objects.all().order_by('-created')[0]
+    queryset = ScannerTemperature.objects.all()
+    tp = ScannerTemperature.objects.last()
 
     def get_object(self, **kwargs) -> Temperature:
         return self.tp

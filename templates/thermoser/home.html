@@ -2,6 +2,12 @@
 {% load static %}
 {% block title %}Home {% endblock %}
 {% block  content %}
+    <div id="image-back">
+        <img src="{% static 'image/uc_logo_green.png' %}" alt="uc">
+    </div>
+    <div>
+    {% include 'thermoser/weather.html' %}
+    </div>
     <div class="card" id="contentdisplay">
         <div class="banner">
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="256"
@@ -22,18 +28,19 @@
         </div>
         <div class="menu">
         </div>
-        <h2 class="name">[[detail.name]]</h2>
-        <div class="title" style="font-size: 20px;">[[detail.dept]]</div>
+        <h2 class="name" style="color: #333333;">[[detail.scanner.name]]</h2>
+        <div class="title" style="font-size: 20px; color: #333333;">[[detail.scanner.dept]]</div>
         <div class="actions">
             <div class="follow-info">
                 <h2 style="font-size: 25px;"><a href="#"><span>[[currentDate()]]</span><small>Time</small></a>
                 </h2>
-                <h2 style="font-size: 21px;"><a href="#"><span>[[detail.scanner_id]]</span><small id="scanner">Student
+                <h2 style="font-size: 21px;"><a href="#"><span>[[detail.scanner.scanner_id]]</span><small id="scanner">Student
                     ID</small></a></h2>
             </div>
             <div class="follow-btn">
-                <h1 style="text-align: center; font-weight: 900; font-size: 20px;">TEMPERATURE</h1>
+                <h1 style="text-align: center; font-weight: 900; font-size: 20px; color: #333333;">TEMPERATURE</h1>
                 <p>[[detail.temp]]</p>
+                 <h1 id="statusTemperature" style="text-align: center; font-weight: 900; font-size: 20px; color: #ec6c0b; padding: 5px 5px;">[[detail.status]] TEMPERATURE</h1>
             </div>
                 </h2>
         </div>
@@ -67,10 +74,10 @@
     }
     ws.onmessage = function (e) {
         const allData = JSON.parse(e.data);
+{#         $("#contentdisplay").css("display","none");#}
         if (allData.action === "retrieve") {
             vueApp.$data.detail = allData.data;
             vueApp.$forceUpdate();
-            $("#contentdisplay").css("display","none");
         }else if (allData.action === "create") {
             vueApp.$data.detail = allData.data;
             setTimeout(function() {
@@ -78,7 +85,8 @@
                     $("#contentdisplay").css("display","none");
                 },
                 3000);
-                    $("#contentdisplay").css("display","block");
+            $("#contentdisplay").css("display","block");
+            $("#statusTemperature").fadeIn()
 
 
 

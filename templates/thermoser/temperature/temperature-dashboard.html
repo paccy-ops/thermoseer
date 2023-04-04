@@ -17,12 +17,8 @@
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="name">Title</label>
-                    <input type="text" name="name" class="form-control" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="scanner_id">scanner_id</label>
-                    <input  type="text" name="scanner_id" class="form-control" id="scanner_id" required>
+                    <label for="scanner">scanner_id</label>
+                    <input  type="text" name="scanner" class="form-control" id="scanner" required>
                 </div>
                 <div class="form-group">
                           <label for="temp">Temperature</label>

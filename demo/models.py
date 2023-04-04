@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 
 
@@ -10,13 +9,34 @@ class PublishManager(models.Manager):
         return super().get_queryset().filter(status='normal')
 
 
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(active='True')
+
+
+class ScannerTemperature(models.Model):
+    scanner_id = models.CharField(max_length=20, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=250)
+    dept = models.CharField(max_length=250)
+    active = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    objects = models.Manager()
+    active_user = ActiveManager()
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        ordering = ('-created',)
+
+
 class Temperature(models.Model):
     STATUS_CHOICES = (("high", "High"), ("normal", "Normal"))
-    name = models.CharField(max_length=250)
-    scanner_id = models.CharField(max_length=50, null=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    scanner = models.ForeignKey(ScannerTemperature, on_delete=models.CASCADE, related_name="scanners")
     temp = models.CharField(max_length=50)
-    dept = models.CharField(max_length=250)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -29,4 +49,4 @@ class Temperature(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return self.name
+        return self.scanner.name

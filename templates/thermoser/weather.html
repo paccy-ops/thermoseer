@@ -1,0 +1,55 @@
+{% block content %}
+<div class="container text-center">
+
+  <div class="banner-weather">
+    <h1 style="text-shadow:1px 1px 10px #29293d;">{{ country }}, {{ name }} Weather <img src="{{ weather_icons }}" style="opacity: 0.8;filter: alpha(opacity=80);border-radius:15px;" alt=""></h1>
+      <h2>Timezone {{ timezone_id }}</h2>
+  </div>
+  <div class="main-content text-center">
+    <div class="weather-data-container">
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-6">
+          <div class="clockDisplay-container">
+            <p id="dateDisplay"></p>
+            <h3 id="clockDisplay"></h3>
+          </div>
+        </div><!---end of col-xs-12-->
+        <div class="col-xs-12 col-md-6 col-lg-6">
+          <div class="curLocationDisp-container">
+              <p style="position: relative;">
+                   <small style="color: #00abff;position: absolute; left: -200%; font-size: 20px;">{{ weather_descriptions }}</small>
+              </p>
+            <h3 id="curLocationDisplay" style="margin: 20px;">{{ name }}</h3>
+          </div>
+        </div><!---end of col-xs-12-->
+      </div><!---end row 1--->
+
+      <div class="row">
+        <div class="col-xs-4 col-lg-4">
+          <div>
+            <h4 class="disp-label">Temperature</h4>
+            <p id="tempDisplay" style="color: #b24c00; font-size: 30px; font-weight: 900;">{{ temperature }}°C</p>
+          </div>
+        </div><!---end of col-xs-12-->
+        <div class="col-xs-4 col-md-4">
+          <div>
+            <h4 class="disp-label">Humidity</h4>
+            <p id="humidDisplay" style="color: #b24c00; font-size: 30px; font-weight: 900;">{{ humidity }}</p>
+          </div>
+        </div><!---end of col-xs-12-->
+        <div class="col-xs-4 col-md-4">
+          <div>
+            <h4 class="disp-label">Wind</h4>
+            <p id="windDisplay" style="color: #b24c00; font-size: 30px; font-weight: 900;">{{ wind_degree }}</p>
+          </div>
+        </div><!---end of col-xs-12-->
+
+      </div><!---end row 1--->
+
+    </div><!--end weather-data-container-->
+
+  </div><!--end main-content-->
+
+  </div>
+</div>
+{% endblock %}

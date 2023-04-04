@@ -1,4 +1,4 @@
-
+{% load static %}
 {% block content %}
     <div class="card" id="contentdisplay">
         <div class="banner">
@@ -20,7 +20,7 @@
         </div>
         <div class="menu">
         </div>
-        <h2 class="name">{{ first_record.name }}</h2>
+        <h2 class="name">detail.scanner.name</h2>
         <div class="title">{{ first_record.dept }}</div>
         <div class="actions">
             <div class="follow-info">
@@ -33,4 +33,56 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block domready %}
+    vueApp = new Vue({
+        el: "#contentdisplay",
+        delimiters: ["[[", "]]"],
+        data() {
+            return {
+                detail: {},
+            };
+        },
+
+    methods: {
+        currentDate() {
+        const current = new Date();
+        return `${current.getHours()}:${current.getMinutes() + 1}:${current.getSeconds()}`;
+    }
+  }
+    });
+
+    const ws = new WebSocket("ws://localhost:8000/view/data/")
+    ws.onopen = function () {
+        ws.send(JSON.stringify({
+            action: "retrieve",
+            request_id: new Date().getTime(),
+        }))
+    }
+    ws.onmessage = function (e) {
+        const allData = JSON.parse(e.data);
+{#         $("#contentdisplay").css("display","none");#}
+        if (allData.action === "retrieve") {
+            vueApp.$data.detail = allData.data;
+            vueApp.$forceUpdate();
+        }else if (allData.action === "create") {
+            vueApp.$data.detail = allData.data;
+            vueApp.$forceUpdate();
+
+{#            setTimeout(function() {#}
+{#                    vueApp.$forceUpdate();#}
+{#                    $("#contentdisplay").css("display","none");#}
+{#                },#}
+{#                3000);#}
+{#            $("#contentdisplay").css("display","block");#}
+
+
+
+        }
+    }
+
+
+
 {% endblock %}
