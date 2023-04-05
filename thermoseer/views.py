@@ -43,8 +43,26 @@ def home(request):
     })
 
 
+# def temperature_search(request):
+#     form = SearchForm()
+#     query = None
+#     results = []
+#     if 'query' in request.GET:
+#         form = SearchForm(request.GET)
+#         if form.is_valid():
+#             query = form.cleaned_data['query']
+#             results = Post.published.annotate(
+#                 similarity=TrigramSimilarity('title', query),
+#             ).filter(similarity__gt=0.1).order_by('-similarity')
+#     return render(request,
+#                   'blog/post/search.html',
+#                   {'form': form,
+#                    'query': query,
+#                    'results': results})
+
 def temperature_list(request):
-    object_list = Temperature.objects.all()
+    object_list = ScannerTemperature.objects.all()
+    # scanner = ScannerTemperature.objects.all()
     paginator = Paginator(object_list, 10)  # 3 posts in each page
     page = request.GET.get('page')
     try:
@@ -67,7 +85,7 @@ def temperature_users_details(request):
     scanner = ScannerTemperature.objects.first()
     user_scanners = ScannerTemperature.objects.all()
     latest_test = scanner.scanners.last()
-    temperatures = Temperature.objects.filter(scanner_id=scanner.scanner_id)
+    temperatures = Temperature.objects.filter(scanner_id=scanner.scanner_id)[:3]
     return render(request, 'thermoser/temperature/detail.html',
                   {'temperature': temperature, 'temperatures': temperatures, 'scanner': scanner,
                    'user_scanners': user_scanners,
@@ -78,7 +96,7 @@ def temperature_users_details(request):
 def user_scanner_detail(request, temp_pk):
     scanner = get_object_or_404(ScannerTemperature, scanner_id=temp_pk, user=request.user)
     user_scanners = ScannerTemperature.objects.all()[:5]
-    latest_test = scanner.scanners.last()
+    latest_test = scanner.scanners.first()
     temperatures = scanner.scanners.all()
     paginator = Paginator(temperatures, 3)
     page = request.GET.get('page')

@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from . import serializers
 from .models import Temperature
-from .serializers import TemperatureSerializer,PostTemperatureSerializer
+from .serializers import TemperatureSerializer, PostTemperatureSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -44,7 +44,7 @@ def view(request):
 @api_view(['POST'])
 def createTemperature(request):
     data = request.data
-    if int(data['temp']) > 36.6:
+    if float(data['temp']) > 36.6:
         data['status'] = 'HIGH'
     else:
         data['status'] = 'NORMAL'

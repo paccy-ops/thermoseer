@@ -32,14 +32,14 @@ a:hover {
 
 .card {
   background-color: #ffffff;
-  max-width: 500px;
-  max-height: 600px;
+  max-width: 450px;
+  max-height: 620px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.5rem;
   box-shadow: 0 1rem 1rem rgba(0,0,0,0.5);
-  margin-top: -250px;
+  margin-top: -500px;
   margin-left: 45rem;
 }
 .card .banner {
