@@ -61,9 +61,9 @@ def home(request):
 #                    'results': results})
 
 def temperature_list(request):
-    object_list = ScannerTemperature.objects.all()
+    object_list = Temperature.objects.all()
     # scanner = ScannerTemperature.objects.all()
-    paginator = Paginator(object_list, 10)  # 3 posts in each page
+    paginator = Paginator(object_list, 4)  # 3 posts in each page
     page = request.GET.get('page')
     try:
         temperatures = paginator.page(page)

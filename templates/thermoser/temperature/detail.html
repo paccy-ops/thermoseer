@@ -11,13 +11,13 @@
                 <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Contact"></div>
                 <h3 class="m0 text-bold">{{ scanner.name }}</h3>
                 <div class="mv-lg">
-                    <p>University Of The Cordilleras <br/> {{ scanner.dept }}</p>
+                    <p style="padding:10px 0;">University Of The Cordilleras <br/> {{ scanner.dept }}</p>
                 </div>
             </div>
         </div>
         <div class="panel panel-default hidden-xs hidden-sm">
             <div class="panel-heading">
-                <div class="panel-title text-center">Recent Records</div>
+                <div class="panel-title text-center" style="text-align: center; font-weight: 900;">Recent users</div>
             </div>
             <div class="panel-body">
                 {% for user_scanner in user_scanners %}
@@ -99,7 +99,7 @@
                     </thead>
                     <tbody style="text-align: center;">
                     {% for temperature in temperatures %}
-                        <tr {% if temperature.status == 'High' %}style="background: #b24c00; border: none;" {% endif %}>
+                        <tr {% if temperature.status == 'HIGH' %}style="background: #b24c00; border: none;" {% endif %}>
                                 <th scope="row">{{ temperature.scanner_id }}</th>
                                 <td>{{ temperature.scanner }} </td>
                                 <td>{{ temperature.temp }}</td>

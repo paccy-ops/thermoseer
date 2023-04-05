@@ -44,7 +44,7 @@ def view(request):
 @api_view(['POST'])
 def createTemperature(request):
     data = request.data
-    if float(data['temp']) > 36.6:
+    if float(data['temp']) > 37.5:
         data['status'] = 'HIGH'
     else:
         data['status'] = 'NORMAL'
