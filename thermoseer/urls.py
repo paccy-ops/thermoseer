@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 app_name = 'thermoseer'
 urlpatterns = [
@@ -14,6 +15,5 @@ urlpatterns = [
     path('thermoser/details', views.temperature_users_details, name='temperature_users_details'),
     path("thermoser/users/<int:temp_pk>", views.user_scanner_detail, name="user_scanner_detail"),
     path("thermoser/details/<int:temp_pk>", views.temperature_detail, name="temperature_detail"),
-
 
 ]

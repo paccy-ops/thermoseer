@@ -30,7 +30,7 @@ class ScannerTemperature(models.Model):
         return str(self.name)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('-updated',)
 
 
 class Temperature(models.Model):
