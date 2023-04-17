@@ -8,7 +8,6 @@ router = DefaultRouter()
 router.register("post", views.PostViewSet, basename="post")
 
 urlpatterns = [
-    # path("", views.index, ),
     path("detail", views.detail, name="detail"),
     path("create", views.createTemperature, name="create"),
     path("view/data", views.view, name="view")

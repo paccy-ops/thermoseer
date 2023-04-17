@@ -5,32 +5,36 @@
         <div class="col-md-10">
             {% if temperatures %}
                 <h1>{{ temperatures.count }} List Of Temperature{{ temperatures.count|pluralize }}</h1>
-            {% else %}
-                <h1>List of temperatures test</h1>
             {% endif %}
         </div>
     </div>
-{#    <form action="{% url 'thermoseer:temperature_list' %}" method="get">#}
-{#        <label>#}
-{#            <input#}
-{#              type="search"#}
-{#              name="scanner"#}
-{#              placeholder="Search name or id..."#}
-{#              class="form-control"#}
-{#            />#}
-{#        </label>#}
-{#    </form>#}
     <div class="row justify-content-center mt-5">
+   {% if temperatures %} %}
+     <form action="{% url 'thermoseer:temperature_list' %}" method="GET" class="form-group">
+        <label>
+            <input style="width: 150%; align-items: center; margin-left: -20%; padding: 20px;"
+              type="search"
+              name="searchText"
+                   id="searchText"
+              placeholder="Search name , id , status ..."
+              class="form-control"
+            />
+        </label>
+    </form>
+   {% endif %}
         <div class="col-md-10">
             {% if temperatures %}
-                <table class="table table-hover table-dark">
+                <div class="list-temperature">
+                <table class="table table-striped table-bordered" style="width:100%">
                     <thead>
                     <tr style="text-align: center;">
-                        <th scope="col">Id</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Temperature</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Status</th>
+                        <th style="font-weight: 900; color: #0D0333;" scope="col">ID</th>
+                        <th style="font-weight: 900; color: #0D0333;" scope="col">NAME</th>
+                        <th style="font-weight: 900; color: #0D0333;" scope="col">TEMPERATURE</th>
+                        <th style="font-weight: 900; color: #0D0333;" scope="col">STATUS</th>
+                        <th style="font-weight: 900; color: #0D0333;" scope="col">TIME</th>
+                        <th style="font-weight: 900; color: #0D0333;" scope="col">DATE</th>
+
                     </tr>
                     </thead>
                     <tbody style="text-align: center;">
@@ -41,14 +45,16 @@
                                     <th scope="row"> <a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.scanner_id }} </a></th>
                                     <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.scanner }} </a></td>
                                     <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.temp }} </a></td>
-                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.publish }} </a></td>
                                     <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.status }} </a></td>
+                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.publish|time }} </a></td>
+                                    <td><a href="{% url 'thermoseer:user_scanner_detail' temperature.scanner_id %}">{{ temperature.publish|date }} </a></td>
                                  {% endif %}
                         </tr>
 
                     {% endfor %}
                     </tbody>
                 </table>
+                </div>
                 {% include "thermoser/pagination.html" with page=temperatures %}
             {% else %}
                 <div class="text-center">
@@ -60,4 +66,8 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block domready %}
+
 {% endblock %}

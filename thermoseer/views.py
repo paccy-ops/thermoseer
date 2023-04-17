@@ -1,17 +1,19 @@
+import requests
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-import requests
+
 from demo.models import Temperature, ScannerTemperature
 from thermoseer.forms import TemperatureForm, ScannerTemperatureForm
 
 #
 params = {
-    'access_key': '610f73b23d8da599af5c37752b3aff85',
+    'access_key': 'e4d95824172f03265fd3d151a9fa9629',
     'query': 'Baguio City'
 }
 #
@@ -43,26 +45,16 @@ def home(request):
     })
 
 
-# def temperature_search(request):
-#     form = SearchForm()
-#     query = None
-#     results = []
-#     if 'query' in request.GET:
-#         form = SearchForm(request.GET)
-#         if form.is_valid():
-#             query = form.cleaned_data['query']
-#             results = Post.published.annotate(
-#                 similarity=TrigramSimilarity('title', query),
-#             ).filter(similarity__gt=0.1).order_by('-similarity')
-#     return render(request,
-#                   'blog/post/search.html',
-#                   {'form': form,
-#                    'query': query,
-#                    'results': results})
-
 def temperature_list(request):
+    search_str = request.GET.get("searchText")
     object_list = Temperature.objects.all()
-    # scanner = ScannerTemperature.objects.all()
+    if search_str is not None:
+        object_list = Temperature.objects.filter(
+            Q(temp__icontains=search_str) |
+            Q(scanner__name__icontains=search_str) |
+            Q(scanner__scanner_id__icontains=search_str) |
+            Q(status__icontains=search_str))
+
     paginator = Paginator(object_list, 4)  # 3 posts in each page
     page = request.GET.get('page')
     try:
@@ -83,8 +75,8 @@ def temperature_list(request):
 def temperature_users_details(request):
     temperature = Temperature.objects.last()
     scanner = ScannerTemperature.objects.first()
-    user_scanners = ScannerTemperature.objects.all()
-    latest_test = scanner.scanners.last()
+    user_scanners = ScannerTemperature.objects.all()[:6]
+    latest_test = scanner.scanners.first()
     temperatures = Temperature.objects.filter(scanner_id=scanner.scanner_id)[:3]
     return render(request, 'thermoser/temperature/detail.html',
                   {'temperature': temperature, 'temperatures': temperatures, 'scanner': scanner,
@@ -198,7 +190,19 @@ def create_temperature(request):
         try:
             form = TemperatureForm(request.POST)
             temp = form.save(commit=False)
+
             temp.user = request.user
+            scanner = ScannerTemperature.objects.get(scanner_id=temp.scanner_id)
+
+            if float(temp.temp) >= float(37.5):
+                temp.status = "HIGH"
+            else:
+                temp.status = 'NORMAL'
+
+            if not scanner.active:
+                scanner.active = True
+                scanner.save()
+
             temp.save()
             return redirect('thermoseer:temperature_list')
         except ValueError:
