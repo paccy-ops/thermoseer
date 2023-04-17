@@ -8,27 +8,28 @@ services:
       - .:/usr/src/app/
     ports:
       - "8000:8000"
+    env_file:
+      - ./.env
     depends_on:
       - db
-      - cache
-  cache:
-    image: redis:6.2-alpine
-    restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes:
-      - cache:/data
+      - redis
   db:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=thermoser
-      - POSTGRES_PASSWORD=thermoser
-      - POSTGRES_DB=thermoser_dev
+      - POSTGRES_USER=thermoseer
+      - POSTGRES_PASSWORD=thermoseer
+      - POSTGRES_DB=thermoseer_dev
+  redis:
+    container_name: redis-thermoseer
+    image: redis
+    ports:
+      - "6375:6379"
+    restart: unless-stopped
+    volumes:
+      - cache:/data
 
 volumes:
   postgres_data:
   cache:
-    driver: local
