@@ -42,7 +42,7 @@
                 <p>[[detail.temp]]</p>
                  <h1 id="statusTemperature" style="text-align: center; font-weight: 900; font-size: 20px; color: #ec6c0b; padding: 5px 5px;">[[detail.status]] TEMPERATURE</h1>
             </div>
-                </h2>
+
         </div>
     </div>
 {% endblock %}
@@ -87,13 +87,49 @@
                 3000);
             $("#contentdisplay").css("display","block");
             $("#statusTemperature").fadeIn()
-
-
-
         }
+    };
+
+ errorApp = new Vue({
+        el: "#showerror",
+        delimiters: ["[[", "]]"],
+        data() {
+            return {
+                detail: {},
+            };
+        },
+
+    methods: {
+        currentDate() {
+        const current = new Date();
+        return `${current.getHours()}:${current.getMinutes() + 1}:${current.getSeconds()}`;
     }
+  }
+});
+const error = new WebSocket("ws://localhost:8000/message/error/");
+error.onopen = function () {
+        error.send(JSON.stringify({
+            action: "retrieve",
+            request_id: new Date().getTime(),
+        }))
+    };
 
-
-
+     error.onmessage = function (e) {
+        const allData = JSON.parse(e.data);
+        if (allData.action === "retrieve") {
+            errorApp.$data.detail = allData.data;
+            errorApp.$forceUpdate();
+            $("#showerror").css("display","none");
+        }else if (allData.action === "create") {
+            errorApp.$data.detail = allData.data;
+            setTimeout(function() {
+                    errorApp.$forceUpdate();
+                    $("#showerror").css("display","none");
+                },
+                3000);
+            $("#showerror").css("display","block");
+            $("#statusTemperature").fadeIn()
+        }
+    };
 {% endblock %}
 

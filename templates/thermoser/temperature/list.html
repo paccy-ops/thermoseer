@@ -4,9 +4,13 @@
     <div class="row justify-content-center mt-5">
         <div class="col-md-10">
             {% if temperatures %}
-                <h1>{{ temperatures.count }} List Of Temperature{{ temperatures.count|pluralize }}</h1>
+                <h2 style="text-align: center;">{{ temperatures.count }} List Of Temperature{{ temperatures.count|pluralize }}</h2>
+                          <hr class="bannerLine" />
             {% endif %}
         </div>
+    </div>
+    <div id="showerror">
+    <p>[[detail.message]]</p>
     </div>
     <div class="row justify-content-center mt-5">
    {% if temperatures %} %}
@@ -69,5 +73,45 @@
 {% endblock %}
 
 {% block domready %}
+        vueApp = new Vue({
+        el: "#showerror",
+        delimiters: ["[[", "]]"],
+        data() {
+            return {
+                detail: {},
+            };
+        },
 
+    methods: {
+        currentDate() {
+        const current = new Date();
+        return `${current.getHours()}:${current.getMinutes() + 1}:${current.getSeconds()}`;
+    }
+  }
+});
+    const ws = new WebSocket("ws://localhost:8000/message/error/")
+    ws.onopen = function () {
+        ws.send(JSON.stringify({
+            action: "retrieve",
+            request_id: new Date().getTime(),
+        }))
+    }
+    ws.onmessage = function (e) {
+        const allData = JSON.parse(e.data);
+        if (allData.action === "retrieve") {
+            vueApp.$data.detail = allData.data;
+            vueApp.$forceUpdate();
+        }else if (allData.action === "create") {
+            vueApp.$data.detail = allData.data;
+            console.log(allData.data);
+             setTimeout(function() {
+                    vueApp.$forceUpdate();
+                    $("#showerror").css("display","none");
+                },
+                3000);
+            $("#showerror").css("display","block");
+        }
+    }
+
+    console.log("hello");
 {% endblock %}

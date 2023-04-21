@@ -50,3 +50,16 @@ class Temperature(models.Model):
 
     def __str__(self):
         return self.scanner.name
+
+
+class Message(models.Model):
+    error = models.CharField(max_length=250)
+    description = models.CharField(max_length=250)
+    user_id = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return self.error

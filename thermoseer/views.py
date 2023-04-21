@@ -23,14 +23,14 @@ api_result = requests.get('http://api.weatherstack.com/current', params)
 def home(request):
     first_record = Temperature.objects.first()
     api_response = api_result.json()
-    humidity = api_response['current']['humidity']
-    temperature = api_response['current']['temperature']
-    weather_icons = api_response['current']['weather_icons']
-    wind_degree = api_response['current']['wind_degree']
-    name = api_response['location']['name']
-    country = api_response['location']['country']
-    timezone_id = api_response['location']['timezone_id']
-    weather_descriptions = api_response['current']['weather_descriptions']
+    humidity = '89'  # api_response['current']['humidity']
+    temperature = '27'  # api_response['current']['temperature']
+    weather_icons = ['']  # api_response['current']['weather_icons']
+    wind_degree = '60'  # api_response['current']['wind_degree']
+    name = 'Baguio city'  # api_response['location']['name']
+    country = 'Philippines'  # api_response['location']['country']
+    timezone_id = 'Asia/Manila'  # api_response['location']['timezone_id']
+    weather_descriptions = ['Sunny']  # api_response['current']['weather_descriptions']
 
     return render(request, "thermoser/home.html", {
         "first_record": first_record,

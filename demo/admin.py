@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Temperature, ScannerTemperature
+from .models import Temperature, ScannerTemperature, Message
 
 
 # Register your models here.
@@ -19,3 +19,8 @@ class ScannerTemperatureAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     raw_id_fields = ('user',)
     ordering = ('-created',)
+
+
+@admin.register(Message)
+class ScannerTemperatureAdmin(admin.ModelAdmin):
+    list_display = ('error', 'created')

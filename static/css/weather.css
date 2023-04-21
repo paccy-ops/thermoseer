@@ -1,6 +1,49 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Passion+One');
 
+.bannerHeader {
+  position: absolute;
+  right: 30%;
+  width: 787px;
+  height: 150px;
+  background-size: cover;
+  background:linear-gradient(
+      rgb(7, 68, 56),
+      rgba(1, 79, 20, 0.95)
+    ),
+    url(http://www.citygrounds.com/cms/default/assets/Image/Crew-Bike-Co-Brand.jpg);
+}
+
+.bannerHeader h1{
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 38px;
+  color: white;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  margin-bottom: -2px;
+}
+
+.bannerLine {
+  background-color: white;
+  width: 80%;
+  height: 1px;
+  display: block;
+  border: 0;
+}
+
+.bannerHeader p{
+  color: white;
+  font-family: sans-serif;
+  font-size: 12px;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  line-height: 18px;
+  width: 90%;
+}
+
 /*html, body*/
 /*{*/
 /*  width:100%;*/

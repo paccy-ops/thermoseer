@@ -1,8 +1,17 @@
+{% load static %}
 {% block content %}
 <div class="container text-center">
-
+     <div id="showerror">
+         <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+        <div class="bannerHeader">
+        <h1 style="color: #e8a200">[[detail.error]]</h1>
+            <br/>
+          <p style="font-size: 30px; font-weight: 900;"><strong>[[detail.description]]</strong></p>
+        </div>
+    </div>
   <div class="banner-weather">
-    <h1 style="text-shadow:1px 1px 10px #29293d;">{{ country }}, {{ name }} Weather <img src="{{ weather_icons }}" style="opacity: 0.8;filter: alpha(opacity=80);border-radius:15px;" alt=""></h1>
+    <h2 style="text-shadow:1px 1px 10px #29293d; font-size: 40px;">{{ country }}, {{ name }} Weather <img src="{{ weather_icons }}" style="opacity: 0.8;filter: alpha(opacity=80);border-radius:15px;" alt=""></h2>
+      <hr class="bannerLine" />
       <h2>Timezone {{ timezone_id }}</h2>
   </div>
   <div class="main-content text-center">
