@@ -60,14 +60,18 @@
                         <button id="signOutBtn" type="submit">Logout</button>
                     </form>
                 </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'thermoseer:signupuser' %}">Sign Up</a>
-                </li>
-                <li class="nav-item">
+                {% else %}
+                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'thermoseer:loginuser' %}">Login</a>
                 </li>
-            {% endif %}
+                {% endif %}
+
+                {% if user.is_authenticated and user.is_superuser %}
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'thermoseer:signupuser' %}">Sign Up</a>
+                </li>
+
+                {% endif %}
         </ul>
     </div>
 </div>

@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Passion+One');
 
+#showerror {
+  display: none;
+}
 .bannerHeader {
   position: absolute;
+  border-radius: 10px;
+  padding: 30px;
   right: 30%;
   width: 787px;
   height: 150px;
   background-size: cover;
-  background:linear-gradient(
-      rgb(7, 68, 56),
-      rgba(1, 79, 20, 0.95)
-    ),
+  background:#ffffff;
     url(http://www.citygrounds.com/cms/default/assets/Image/Crew-Bike-Co-Brand.jpg);
 }
 

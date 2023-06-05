@@ -117,11 +117,12 @@ error.onopen = function () {
      error.onmessage = function (e) {
         const allData = JSON.parse(e.data);
         if (allData.action === "retrieve") {
+            $("#showerror").css("display","none");
             errorApp.$data.detail = allData.data;
             errorApp.$forceUpdate();
-            $("#showerror").css("display","none");
         }else if (allData.action === "create") {
             errorApp.$data.detail = allData.data;
+            errorApp.$forceUpdate();
             setTimeout(function() {
                     errorApp.$forceUpdate();
                     $("#showerror").css("display","none");

@@ -12,8 +12,7 @@ then
 fi
 python manage.py migrate
 
-SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"school@gmail.com"}
-python manage.py createsuperuser --email $SUPERUSER_EMAIL --noinput || true
-python manage.py migrate
+SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME:-"school"}
+python manage.py createsuperuser --username $SUPERUSER_USERNAME --noinput || true
 
 exec "$@"
