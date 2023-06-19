@@ -86,7 +86,7 @@ def temperature_users_details(request):
 
 @login_required
 def user_scanner_detail(request, temp_pk):
-    scanner = get_object_or_404(ScannerTemperature, scanner_id=temp_pk, user=request.user)
+    scanner = get_object_or_404(ScannerTemperature, scanner_id=temp_pk)
     user_scanners = ScannerTemperature.objects.all()[:5]
     latest_test = scanner.scanners.first()
     temperatures = scanner.scanners.all()
@@ -107,7 +107,7 @@ def user_scanner_detail(request, temp_pk):
 
 @login_required
 def temperature_detail(request, temp_pk):
-    temperature = get_object_or_404(ScannerTemperature, pk=temp_pk, user=request.user)
+    temperature = get_object_or_404(ScannerTemperature, pk=temp_pk)
     scanner = get_object_or_404(ScannerTemperature, pk=temp_pk)
     scanner_ids = Temperature.objects.filter(scanner_id=temperature.scanner_id)
     temperatures = Temperature.objects.all()
@@ -220,7 +220,7 @@ def addId(request):
             temp = form.save(commit=False)
             temp.user = request.user
             temp.save()
-            return redirect('thermoseer:temperature_users_details')
+            return redirect('thermoseer:home')
         except ValueError:
             return render(request, 'thermoser/temperature/add-id.html',
                           {'form': ScannerTemperatureForm(), 'error': 'Bad data passed in. Try again.'})

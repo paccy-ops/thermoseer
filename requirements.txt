@@ -1,7 +1,9 @@
-channels-redis==3.4.0
-Django==4.0.5
-djangochannelsrestframework==1.0.0
-djangorestframework==3.13.1
-Pillow==9.2.0
+channels-redis
+djangochannelsrestframework
+djangorestframework>=3.12.4
 requests
+asgiref >=3.3.2
+Django==3.2.6
+gunicorn==20.1.0
 psycopg2-binary==2.9.1
+redis==3.4.1

@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  thermoseer-web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -22,14 +22,14 @@ services:
       - POSTGRES_PASSWORD=thermoseer
       - POSTGRES_DB=thermoseer_dev
   redis:
-    container_name: redis-thermoseer
+    container_name: redis
     image: redis
     ports:
-      - "6375:6379"
+      - "6379:6379"
     restart: unless-stopped
     volumes:
-      - cache:/data
+      - cache:/usr/local/etc/redis
 
 volumes:
-  postgres_data:
   cache:
+  postgres_data:

@@ -20,7 +20,10 @@ class ScannerTemperatureAdmin(admin.ModelAdmin):
     raw_id_fields = ('user',)
     ordering = ('-created',)
 
-
 @admin.register(Message)
 class ScannerTemperatureAdmin(admin.ModelAdmin):
-    list_display = ('error', 'created')
+    list_display = ('user_id', 'description', 'created', 'created')
+    search_fields = ('user_id',)
+    ordering = ('-created',)
+
+
