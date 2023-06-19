@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  thermoser-request:
+    build: .
+    container_name: thermoser-arduino
+    networks:
+      - thermoser-request
+networks:
+  thermoser-request:
+    driver: bridge
